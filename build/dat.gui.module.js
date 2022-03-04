@@ -1587,7 +1587,7 @@ var ControllerFactory = function ControllerFactory(object, property) {
 function requestAnimationFrame(callback) {
   setTimeout(callback, 1000 / 60);
 }
-var requestAnimationFrame$1 = typeof window === 'undefined' && null || window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || requestAnimationFrame;
+var requestAnimationFrame$1 = typeof window === 'undefined' || window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || requestAnimationFrame;
 
 var CenteredDiv = function () {
   function CenteredDiv() {
