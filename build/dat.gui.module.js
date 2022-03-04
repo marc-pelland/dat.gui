@@ -1695,6 +1695,7 @@ var hideableGuis = [];
 var GUI = function GUI(pars) {
   var _this = this;
   var params = pars || {};
+  if (typeof window === 'undefined') return null;
   this.domElement = document.createElement('div');
   this.__ul = document.createElement('ul');
   this.domElement.appendChild(this.__ul);

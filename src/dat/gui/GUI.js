@@ -91,6 +91,8 @@ const GUI = function (pars) {
 
   let params = pars || {};
 
+  if (typeof window === 'undefined') return null;
+
   /**
    * Outermost DOM Element
    * @type {DOMElement}
