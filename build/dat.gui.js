@@ -1547,14 +1547,16 @@ var css = {
     doc.getElementsByTagName('head')[0].appendChild(link);
   },
   inject: function inject(cssContent, indoc) {
-    var doc = indoc || document;
-    var injected = document.createElement('style');
-    injected.type = 'text/css';
-    injected.innerHTML = cssContent;
-    var head = doc.getElementsByTagName('head')[0];
-    try {
-      head.appendChild(injected);
-    } catch (e) {
+    var doc = indoc || document || null;
+    if (doc !== null) {
+      var injected = document.createElement('style');
+      injected.type = 'text/css';
+      injected.innerHTML = cssContent;
+      var head = doc.getElementsByTagName('head')[0];
+      try {
+        head.appendChild(injected);
+      } catch (e) {
+      }
     }
   }
 };
