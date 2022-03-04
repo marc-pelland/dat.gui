@@ -1539,15 +1539,17 @@ function hueGradient(elem) {
 
 var css = {
   load: function load(url, indoc) {
-    var doc = indoc || document;
-    var link = doc.createElement('link');
-    link.type = 'text/css';
-    link.rel = 'stylesheet';
-    link.href = url;
-    doc.getElementsByTagName('head')[0].appendChild(link);
+    var doc = typeof document !== 'undefined' ? indoc || document : null;
+    if (doc !== null) {
+      var link = doc.createElement('link');
+      link.type = 'text/css';
+      link.rel = 'stylesheet';
+      link.href = url;
+      doc.getElementsByTagName('head')[0].appendChild(link);
+    }
   },
   inject: function inject(cssContent, indoc) {
-    var doc = indoc || document || null;
+    var doc = typeof document !== 'undefined' ? indoc || document : null;
     if (doc !== null) {
       var injected = document.createElement('style');
       injected.type = 'text/css';
