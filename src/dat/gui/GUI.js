@@ -11,33 +11,33 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  */
 
-import css from "../utils/css";
-import saveDialogueContents from "./saveDialogue.html";
-import ControllerFactory from "../controllers/ControllerFactory";
-import Controller from "../controllers/Controller";
-import BooleanController from "../controllers/BooleanController";
-import FunctionController from "../controllers/FunctionController";
-import NumberControllerBox from "../controllers/NumberControllerBox";
-import NumberControllerSlider from "../controllers/NumberControllerSlider";
-import ColorController from "../controllers/ColorController";
-import requestAnimationFrame from "../utils/requestAnimationFrame";
-import CenteredDiv from "../dom/CenteredDiv";
-import dom from "../dom/dom";
-import common from "../utils/common";
+import css from '../utils/css';
+import saveDialogueContents from './saveDialogue.html';
+import ControllerFactory from '../controllers/ControllerFactory';
+import Controller from '../controllers/Controller';
+import BooleanController from '../controllers/BooleanController';
+import FunctionController from '../controllers/FunctionController';
+import NumberControllerBox from '../controllers/NumberControllerBox';
+import NumberControllerSlider from '../controllers/NumberControllerSlider';
+import ColorController from '../controllers/ColorController';
+import requestAnimationFrame from '../utils/requestAnimationFrame';
+import CenteredDiv from '../dom/CenteredDiv';
+import dom from '../dom/dom';
+import common from '../utils/common';
 
-import styleSheet from "./style.scss"; // CSS to embed in build
+import styleSheet from './style.scss'; // CSS to embed in build
 
 css.inject(styleSheet);
 
 /** @ignore Outer-most className for GUI's */
-const CSS_NAMESPACE = "dg";
+const CSS_NAMESPACE = 'dg';
 
 const HIDE_KEY_CODE = 72;
 
 /** @ignore The only value shared between the JS and SCSS. Use caution. */
 const CLOSE_BUTTON_HEIGHT = 20;
 
-const DEFAULT_DEFAULT_PRESET_NAME = "Default";
+const DEFAULT_DEFAULT_PRESET_NAME = 'Default';
 
 const SUPPORTS_LOCAL_STORAGE = (function () {
   try {
@@ -45,7 +45,7 @@ const SUPPORTS_LOCAL_STORAGE = (function () {
   } catch (e) {
     return false;
   }
-})();
+}());
 
 let SAVE_DIALOGUE;
 
@@ -95,8 +95,8 @@ const GUI = function (pars) {
    * Outermost DOM Element
    * @type {DOMElement}
    */
-  this.domElement = document.createElement("div");
-  this.__ul = document.createElement("ul");
+  this.domElement = document.createElement('div');
+  this.__ul = document.createElement('ul');
   this.domElement.appendChild(this.__ul);
 
   dom.addClass(this.domElement, CSS_NAMESPACE);
@@ -174,7 +174,7 @@ const GUI = function (pars) {
   // constructor. Should be a 'remembered' value.
   let useLocalStorage =
     SUPPORTS_LOCAL_STORAGE &&
-    localStorage.getItem(getLocalStorageHash(this, "isLocal")) === "true";
+    localStorage.getItem(getLocalStorageHash(this, 'isLocal')) === 'true';
 
   let saveToLocalStorage;
   let titleRow;
@@ -324,11 +324,11 @@ const GUI = function (pars) {
           if (SUPPORTS_LOCAL_STORAGE) {
             useLocalStorage = bool;
             if (bool) {
-              dom.bind(window, "unload", saveToLocalStorage);
+              dom.bind(window, 'unload', saveToLocalStorage);
             } else {
-              dom.unbind(window, "unload", saveToLocalStorage);
+              dom.unbind(window, 'unload', saveToLocalStorage);
             }
-            localStorage.setItem(getLocalStorageHash(_this, "isLocal"), bool);
+            localStorage.setItem(getLocalStorageHash(_this, 'isLocal'), bool);
           }
         }
       }
@@ -347,7 +347,7 @@ const GUI = function (pars) {
       if (useLocalStorage) {
         _this.useLocalStorage = true;
 
-        const savedGui = localStorage.getItem(getLocalStorageHash(this, "gui"));
+        const savedGui = localStorage.getItem(getLocalStorageHash(this, 'gui'));
 
         if (savedGui) {
           params.load = JSON.parse(savedGui);
@@ -355,7 +355,7 @@ const GUI = function (pars) {
       }
     }
 
-    this.__closeButton = document.createElement("div");
+    this.__closeButton = document.createElement('div');
     this.__closeButton.innerHTML = GUI.TEXT_CLOSED;
     dom.addClass(this.__closeButton, GUI.CLASS_CLOSE_BUTTON);
     if (params.closeOnTop) {
@@ -369,7 +369,7 @@ const GUI = function (pars) {
       this.domElement.appendChild(this.__closeButton);
     }
 
-    dom.bind(this.__closeButton, "click", function () {
+    dom.bind(this.__closeButton, 'click', function () {
       _this.closed = !_this.closed;
     });
     // Oh, you're a nested GUI!
@@ -379,7 +379,7 @@ const GUI = function (pars) {
     }
 
     const titleRowName = document.createTextNode(params.name);
-    dom.addClass(titleRowName, "controller-name");
+    dom.addClass(titleRowName, 'controller-name');
 
     titleRow = addRow(_this, titleRowName);
 
@@ -391,8 +391,8 @@ const GUI = function (pars) {
 
     dom.addClass(this.__ul, GUI.CLASS_CLOSED);
 
-    dom.addClass(titleRow, "title");
-    dom.bind(titleRow, "click", onClickTitle);
+    dom.addClass(titleRow, 'title');
+    dom.bind(titleRow, 'click', onClickTitle);
 
     if (!params.closed) {
       this.closed = false;
@@ -402,7 +402,7 @@ const GUI = function (pars) {
   if (params.autoPlace) {
     if (common.isUndefined(params.parent)) {
       if (autoPlaceVirgin) {
-        autoPlaceContainer = document.createElement("div");
+        autoPlaceContainer = document.createElement('div');
         dom.addClass(autoPlaceContainer, CSS_NAMESPACE);
         dom.addClass(autoPlaceContainer, GUI.CLASS_AUTO_PLACE_CONTAINER);
         document.body.appendChild(autoPlaceContainer);
@@ -426,10 +426,10 @@ const GUI = function (pars) {
     _this.onResizeDebounced();
   };
 
-  dom.bind(window, "resize", this.__resizeHandler);
-  dom.bind(this.__ul, "webkitTransitionEnd", this.__resizeHandler);
-  dom.bind(this.__ul, "transitionend", this.__resizeHandler);
-  dom.bind(this.__ul, "oTransitionEnd", this.__resizeHandler);
+  dom.bind(window, 'resize', this.__resizeHandler);
+  dom.bind(this.__ul, 'webkitTransitionEnd', this.__resizeHandler);
+  dom.bind(this.__ul, 'transitionend', this.__resizeHandler);
+  dom.bind(this.__ul, 'oTransitionEnd', this.__resizeHandler);
   this.onResize();
 
   if (params.resizable) {
@@ -439,10 +439,10 @@ const GUI = function (pars) {
   saveToLocalStorage = function () {
     if (
       SUPPORTS_LOCAL_STORAGE &&
-      localStorage.getItem(getLocalStorageHash(_this, "isLocal")) === "true"
+      localStorage.getItem(getLocalStorageHash(_this, 'isLocal')) === 'true'
     ) {
       localStorage.setItem(
-        getLocalStorageHash(_this, "gui"),
+        getLocalStorageHash(_this, 'gui'),
         JSON.stringify(_this.getSaveObject())
       );
     }
@@ -467,34 +467,34 @@ const GUI = function (pars) {
 GUI.toggleHide = function () {
   hide = !hide;
   common.each(hideableGuis, function (gui) {
-    gui.domElement.style.display = hide ? "none" : "";
+    gui.domElement.style.display = hide ? 'none' : '';
   });
 };
 
-GUI.CLASS_AUTO_PLACE = "a";
-GUI.CLASS_AUTO_PLACE_CONTAINER = "ac";
-GUI.CLASS_MAIN = "main";
-GUI.CLASS_CONTROLLER_ROW = "cr";
-GUI.CLASS_TOO_TALL = "taller-than-window";
-GUI.CLASS_CLOSED = "closed";
-GUI.CLASS_CLOSE_BUTTON = "close-button";
-GUI.CLASS_CLOSE_TOP = "close-top";
-GUI.CLASS_CLOSE_BOTTOM = "close-bottom";
-GUI.CLASS_DRAG = "drag";
+GUI.CLASS_AUTO_PLACE = 'a';
+GUI.CLASS_AUTO_PLACE_CONTAINER = 'ac';
+GUI.CLASS_MAIN = 'main';
+GUI.CLASS_CONTROLLER_ROW = 'cr';
+GUI.CLASS_TOO_TALL = 'taller-than-window';
+GUI.CLASS_CLOSED = 'closed';
+GUI.CLASS_CLOSE_BUTTON = 'close-button';
+GUI.CLASS_CLOSE_TOP = 'close-top';
+GUI.CLASS_CLOSE_BOTTOM = 'close-bottom';
+GUI.CLASS_DRAG = 'drag';
 
 GUI.DEFAULT_WIDTH = 245;
-GUI.TEXT_CLOSED = "Close Controls";
-GUI.TEXT_OPEN = "Open Controls";
+GUI.TEXT_CLOSED = 'Close Controls';
+GUI.TEXT_OPEN = 'Open Controls';
 
 GUI._keydownHandler = function (e) {
   if (
-    document.activeElement.type !== "text" &&
+    document.activeElement.type !== 'text' &&
     (e.which === HIDE_KEY_CODE || e.keyCode === HIDE_KEY_CODE)
   ) {
     GUI.toggleHide();
   }
 };
-dom.bind(window, "keydown", GUI._keydownHandler, false);
+dom.bind(window, 'keydown', GUI._keydownHandler, false);
 
 common.extend(
   GUI.prototype,
@@ -579,8 +579,8 @@ common.extend(
     destroy: function () {
       if (this.parent) {
         throw new Error(
-          "Only the root GUI should be removed with .destroy(). " +
-            "For subfolders, use gui.removeFolder(folder) instead."
+          'Only the root GUI should be removed with .destroy(). ' +
+            'For subfolders, use gui.removeFolder(folder) instead.'
         );
       }
 
@@ -593,7 +593,7 @@ common.extend(
         _this.removeFolder(subfolder);
       });
 
-      dom.unbind(window, "keydown", GUI._keydownHandler, false);
+      dom.unbind(window, 'keydown', GUI._keydownHandler, false);
 
       removeListeners(this);
     },
@@ -611,7 +611,7 @@ common.extend(
       // by which to remember saved values
       if (this.__folders[name] !== undefined) {
         throw new Error(
-          "You already have a folder in this GUI by the" +
+          'You already have a folder in this GUI by the' +
             ' name "' +
             name +
             '"'
@@ -643,7 +643,7 @@ common.extend(
       this.__folders[name] = gui;
 
       const li = addRow(this, gui.domElement);
-      dom.addClass(li, "folder");
+      dom.addClass(li, 'folder');
       return gui;
     },
 
@@ -697,14 +697,14 @@ common.extend(
      * Hides the GUI.
      */
     hide: function () {
-      this.domElement.style.display = "none";
+      this.domElement.style.display = 'none';
     },
 
     /**
      * Shows the GUI.
      */
     show: function () {
-      this.domElement.style.display = "";
+      this.domElement.style.display = '';
     },
 
     onResize: function () {
@@ -723,21 +723,21 @@ common.extend(
         if (window.innerHeight - top - CLOSE_BUTTON_HEIGHT < h) {
           dom.addClass(root.domElement, GUI.CLASS_TOO_TALL);
           root.__ul.style.height =
-            window.innerHeight - top - CLOSE_BUTTON_HEIGHT + "px";
+            window.innerHeight - top - CLOSE_BUTTON_HEIGHT + 'px';
         } else {
           dom.removeClass(root.domElement, GUI.CLASS_TOO_TALL);
-          root.__ul.style.height = "auto";
+          root.__ul.style.height = 'auto';
         }
       }
 
       if (root.__resize_handle) {
         common.defer(function () {
-          root.__resize_handle.style.height = root.__ul.offsetHeight + "px";
+          root.__resize_handle.style.height = root.__ul.offsetHeight + 'px';
         });
       }
 
       if (root.__closeButton) {
-        root.__closeButton.style.width = root.width + "px";
+        root.__closeButton.style.width = root.width + 'px';
       }
     },
 
@@ -762,7 +762,7 @@ common.extend(
       }
 
       if (this.parent) {
-        throw new Error("You can only call remember on a top level GUI.");
+        throw new Error('You can only call remember on a top level GUI.');
       }
 
       const _this = this;
@@ -905,7 +905,7 @@ common.extend(
  * @ignore
  */
 function addRow(gui, newDom, liBefore) {
-  const li = document.createElement("li");
+  const li = document.createElement('li');
   if (newDom) {
     li.appendChild(newDom);
   }
@@ -920,10 +920,10 @@ function addRow(gui, newDom, liBefore) {
 }
 
 function removeListeners(gui) {
-  dom.unbind(window, "resize", gui.__resizeHandler);
+  dom.unbind(window, 'resize', gui.__resizeHandler);
 
   if (gui.saveToLocalStorageIfPossible) {
-    dom.unbind(window, "unload", gui.saveToLocalStorageIfPossible);
+    dom.unbind(window, 'unload', gui.saveToLocalStorageIfPossible);
   }
 }
 
@@ -931,7 +931,7 @@ function markPresetModified(gui, modified) {
   const opt = gui.__preset_select[gui.__preset_select.selectedIndex];
 
   if (modified) {
-    opt.innerHTML = opt.value + "*";
+    opt.innerHTML = opt.value + '*';
   } else {
     opt.innerHTML = opt.value;
   }
@@ -1009,7 +1009,7 @@ function augmentController(gui, li, controller) {
     );
 
     common.each(
-      ["updateDisplay", "onChange", "onFinishChange", "step", "min", "max"],
+      ['updateDisplay', 'onChange', 'onFinishChange', 'step', 'min', 'max'],
       function (method) {
         const pc = controller[method];
         const pb = box[method];
@@ -1021,7 +1021,7 @@ function augmentController(gui, li, controller) {
       }
     );
 
-    dom.addClass(li, "has-slider");
+    dom.addClass(li, 'has-slider');
     controller.domElement.insertBefore(
       box.domElement,
       controller.domElement.firstElementChild
@@ -1059,27 +1059,27 @@ function augmentController(gui, li, controller) {
     controller.min = common.compose(r, controller.min);
     controller.max = common.compose(r, controller.max);
   } else if (controller instanceof BooleanController) {
-    dom.bind(li, "click", function () {
-      dom.fakeEvent(controller.__checkbox, "click");
+    dom.bind(li, 'click', function () {
+      dom.fakeEvent(controller.__checkbox, 'click');
     });
 
-    dom.bind(controller.__checkbox, "click", function (e) {
+    dom.bind(controller.__checkbox, 'click', function (e) {
       e.stopPropagation(); // Prevents double-toggle
     });
   } else if (controller instanceof FunctionController) {
-    dom.bind(li, "click", function () {
-      dom.fakeEvent(controller.__button, "click");
+    dom.bind(li, 'click', function () {
+      dom.fakeEvent(controller.__button, 'click');
     });
 
-    dom.bind(li, "mouseover", function () {
-      dom.addClass(controller.__button, "hover");
+    dom.bind(li, 'mouseover', function () {
+      dom.addClass(controller.__button, 'hover');
     });
 
-    dom.bind(li, "mouseout", function () {
-      dom.removeClass(controller.__button, "hover");
+    dom.bind(li, 'mouseout', function () {
+      dom.removeClass(controller.__button, 'hover');
     });
   } else if (controller instanceof ColorController) {
-    dom.addClass(li, "color");
+    dom.addClass(li, 'color');
     controller.updateDisplay = common.compose(function (val) {
       li.style.borderLeftColor = controller.__color.toString();
       return val;
@@ -1174,13 +1174,13 @@ function add(gui, object, property, params) {
 
   recallSavedValue(gui, controller);
 
-  dom.addClass(controller.domElement, "c");
+  dom.addClass(controller.domElement, 'c');
 
-  const name = document.createElement("span");
-  dom.addClass(name, "property-name");
+  const name = document.createElement('span');
+  dom.addClass(name, 'property-name');
   name.innerHTML = controller.property;
 
-  const container = document.createElement("div");
+  const container = document.createElement('div');
   container.appendChild(name);
   container.appendChild(controller.domElement);
 
@@ -1188,7 +1188,7 @@ function add(gui, object, property, params) {
 
   dom.addClass(li, GUI.CLASS_CONTROLLER_ROW);
   if (controller instanceof ColorController) {
-    dom.addClass(li, "color");
+    dom.addClass(li, 'color');
   } else {
     dom.addClass(li, typeof controller.getValue());
   }
@@ -1202,11 +1202,11 @@ function add(gui, object, property, params) {
 
 function getLocalStorageHash(gui, key) {
   // TODO how does this deal with multiple GUI's?
-  return document.location.href + "." + key;
+  return document.location.href + '.' + key;
 }
 
 function addPresetOption(gui, name, setSelected) {
-  const opt = document.createElement("option");
+  const opt = document.createElement('option');
   opt.innerHTML = name;
   opt.value = name;
   gui.__preset_select.appendChild(opt);
@@ -1216,39 +1216,39 @@ function addPresetOption(gui, name, setSelected) {
 }
 
 function showHideExplain(gui, explain) {
-  explain.style.display = gui.useLocalStorage ? "block" : "none";
+  explain.style.display = gui.useLocalStorage ? 'block' : 'none';
 }
 
 function addSaveMenu(gui) {
-  const div = (gui.__save_row = document.createElement("li"));
+  const div = (gui.__save_row = document.createElement('li'));
 
-  dom.addClass(gui.domElement, "has-save");
+  dom.addClass(gui.domElement, 'has-save');
 
   gui.__ul.insertBefore(div, gui.__ul.firstChild);
 
-  dom.addClass(div, "save-row");
+  dom.addClass(div, 'save-row');
 
-  const gears = document.createElement("span");
-  gears.innerHTML = "&nbsp;";
-  dom.addClass(gears, "button gears");
+  const gears = document.createElement('span');
+  gears.innerHTML = '&nbsp;';
+  dom.addClass(gears, 'button gears');
 
   // TODO replace with FunctionController
-  const button = document.createElement("span");
-  button.innerHTML = "Save";
-  dom.addClass(button, "button");
-  dom.addClass(button, "save");
+  const button = document.createElement('span');
+  button.innerHTML = 'Save';
+  dom.addClass(button, 'button');
+  dom.addClass(button, 'save');
 
-  const button2 = document.createElement("span");
-  button2.innerHTML = "New";
-  dom.addClass(button2, "button");
-  dom.addClass(button2, "save-as");
+  const button2 = document.createElement('span');
+  button2.innerHTML = 'New';
+  dom.addClass(button2, 'button');
+  dom.addClass(button2, 'save-as');
 
-  const button3 = document.createElement("span");
-  button3.innerHTML = "Revert";
-  dom.addClass(button3, "button");
-  dom.addClass(button3, "revert");
+  const button3 = document.createElement('span');
+  button3.innerHTML = 'Revert';
+  dom.addClass(button3, 'button');
+  dom.addClass(button3, 'revert');
 
-  const select = (gui.__preset_select = document.createElement("select"));
+  const select = (gui.__preset_select = document.createElement('select'));
 
   if (gui.load && gui.load.remembered) {
     common.each(gui.load.remembered, function (value, key) {
@@ -1258,7 +1258,7 @@ function addSaveMenu(gui) {
     addPresetOption(gui, DEFAULT_DEFAULT_PRESET_NAME, false);
   }
 
-  dom.bind(select, "change", function () {
+  dom.bind(select, 'change', function () {
     for (let index = 0; index < gui.__preset_select.length; index++) {
       gui.__preset_select[index].innerHTML = gui.__preset_select[index].value;
     }
@@ -1273,34 +1273,34 @@ function addSaveMenu(gui) {
   div.appendChild(button3);
 
   if (SUPPORTS_LOCAL_STORAGE) {
-    const explain = document.getElementById("dg-local-explain");
-    const localStorageCheckBox = document.getElementById("dg-local-storage");
-    const saveLocally = document.getElementById("dg-save-locally");
+    const explain = document.getElementById('dg-local-explain');
+    const localStorageCheckBox = document.getElementById('dg-local-storage');
+    const saveLocally = document.getElementById('dg-save-locally');
 
-    saveLocally.style.display = "block";
+    saveLocally.style.display = 'block';
 
-    if (localStorage.getItem(getLocalStorageHash(gui, "isLocal")) === "true") {
-      localStorageCheckBox.setAttribute("checked", "checked");
+    if (localStorage.getItem(getLocalStorageHash(gui, 'isLocal')) === 'true') {
+      localStorageCheckBox.setAttribute('checked', 'checked');
     }
 
     showHideExplain(gui, explain);
 
     // TODO: Use a boolean controller, fool!
-    dom.bind(localStorageCheckBox, "change", function () {
+    dom.bind(localStorageCheckBox, 'change', function () {
       gui.useLocalStorage = !gui.useLocalStorage;
       showHideExplain(gui, explain);
     });
   }
 
-  const newConstructorTextArea = document.getElementById("dg-new-constructor");
+  const newConstructorTextArea = document.getElementById('dg-new-constructor');
 
-  dom.bind(newConstructorTextArea, "keydown", function (e) {
+  dom.bind(newConstructorTextArea, 'keydown', function (e) {
     if (e.metaKey && (e.which === 67 || e.keyCode === 67)) {
       SAVE_DIALOGUE.hide();
     }
   });
 
-  dom.bind(gears, "click", function () {
+  dom.bind(gears, 'click', function () {
     newConstructorTextArea.innerHTML = JSON.stringify(
       gui.getSaveObject(),
       undefined,
@@ -1311,18 +1311,18 @@ function addSaveMenu(gui) {
     newConstructorTextArea.select();
   });
 
-  dom.bind(button, "click", function () {
+  dom.bind(button, 'click', function () {
     gui.save();
   });
 
-  dom.bind(button2, "click", function () {
-    const presetName = prompt("Enter a new preset name.");
+  dom.bind(button2, 'click', function () {
+    const presetName = prompt('Enter a new preset name.');
     if (presetName) {
       gui.saveAs(presetName);
     }
   });
 
-  dom.bind(button3, "click", function () {
+  dom.bind(button3, 'click', function () {
     gui.revert();
   });
 
@@ -1332,14 +1332,14 @@ function addSaveMenu(gui) {
 function addResizeHandle(gui) {
   let pmouseX;
 
-  gui.__resize_handle = document.createElement("div");
+  gui.__resize_handle = document.createElement('div');
 
   common.extend(gui.__resize_handle.style, {
-    width: "6px",
-    marginLeft: "-3px",
-    height: "200px",
-    cursor: "ew-resize",
-    position: "absolute"
+    width: '6px',
+    marginLeft: '-3px',
+    height: '200px',
+    cursor: 'ew-resize',
+    position: 'absolute'
     // border: '1px solid blue'
   });
 
@@ -1355,8 +1355,8 @@ function addResizeHandle(gui) {
 
   function dragStop() {
     dom.removeClass(gui.__closeButton, GUI.CLASS_DRAG);
-    dom.unbind(window, "mousemove", drag);
-    dom.unbind(window, "mouseup", dragStop);
+    dom.unbind(window, 'mousemove', drag);
+    dom.unbind(window, 'mouseup', dragStop);
   }
 
   function dragStart(e) {
@@ -1365,14 +1365,14 @@ function addResizeHandle(gui) {
     pmouseX = e.clientX;
 
     dom.addClass(gui.__closeButton, GUI.CLASS_DRAG);
-    dom.bind(window, "mousemove", drag);
-    dom.bind(window, "mouseup", dragStop);
+    dom.bind(window, 'mousemove', drag);
+    dom.bind(window, 'mouseup', dragStop);
 
     return false;
   }
 
-  dom.bind(gui.__resize_handle, "mousedown", dragStart);
-  dom.bind(gui.__closeButton, "mousedown", dragStart);
+  dom.bind(gui.__resize_handle, 'mousedown', dragStart);
+  dom.bind(gui.__closeButton, 'mousedown', dragStart);
 
   gui.domElement.insertBefore(
     gui.__resize_handle,
@@ -1381,14 +1381,14 @@ function addResizeHandle(gui) {
 }
 
 function setWidth(gui, w) {
-  gui.domElement.style.width = w + "px";
+  gui.domElement.style.width = w + 'px';
   // Auto placed save-rows are position fixed, so we have to
   // set the width manually if we want it to bleed to the edge
   if (gui.__save_row && gui.autoPlace) {
-    gui.__save_row.style.width = w + "px";
+    gui.__save_row.style.width = w + 'px';
   }
   if (gui.__closeButton) {
-    gui.__closeButton.style.width = w + "px";
+    gui.__closeButton.style.width = w + 'px';
   }
 }
 
