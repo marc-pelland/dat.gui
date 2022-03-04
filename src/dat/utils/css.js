@@ -12,7 +12,7 @@
  */
 
 const css = {
-  load: function(url, indoc) {
+  load: function (url, indoc) {
     const doc = indoc || document;
     const link = doc.createElement('link');
     link.type = 'text/css';
@@ -21,15 +21,18 @@ const css = {
     doc.getElementsByTagName('head')[0].appendChild(link);
   },
 
-  inject: function(cssContent, indoc) {
-    const doc = indoc || document;
-    const injected = document.createElement('style');
-    injected.type = 'text/css';
-    injected.innerHTML = cssContent;
-    const head = doc.getElementsByTagName('head')[0];
-    try {
-      head.appendChild(injected);
-    } catch (e) { // Unable to inject CSS, probably because of a Content Security Policy
+  inject: function (cssContent, indoc) {
+    const doc = indoc || document || null;
+    if (doc !== null) {
+      const injected = document.createElement('style');
+      injected.type = 'text/css';
+      injected.innerHTML = cssContent;
+      const head = doc.getElementsByTagName('head')[0];
+      try {
+        head.appendChild(injected);
+      } catch (e) {
+        // Unable to inject CSS, probably because of a Content Security Policy
+      }
     }
   }
 };
