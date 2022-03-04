@@ -1593,7 +1593,7 @@ var ControllerFactory = function ControllerFactory(object, property) {
 function requestAnimationFrame(callback) {
   setTimeout(callback, 1000 / 60);
 }
-var requestAnimationFrame$1 = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || requestAnimationFrame;
+var requestAnimationFrame$1 = typeof window === 'undefined' && null || window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || requestAnimationFrame;
 
 var CenteredDiv = function () {
   function CenteredDiv() {
@@ -1663,8 +1663,13 @@ var CenteredDiv = function () {
   }, {
     key: 'layout',
     value: function layout() {
-      this.domElement.style.left = window.innerWidth / 2 - dom.getWidth(this.domElement) / 2 + 'px';
-      this.domElement.style.top = window.innerHeight / 2 - dom.getHeight(this.domElement) / 2 + 'px';
+      if (typeof window !== 'undefined') {
+        this.domElement.style.left = window.innerWidth / 2 - dom.getWidth(this.domElement) / 2 + 'px';
+        this.domElement.style.top = window.innerHeight / 2 - dom.getHeight(this.domElement) / 2 + 'px';
+      } else {
+        this.domElement.style.left = 800 - dom.getWidth(this.domElement) / 2 + 'px';
+        this.domElement.style.top = 400 - dom.getHeight(this.domElement) / 2 + 'px';
+      }
     }
   }]);
   return CenteredDiv;
@@ -2176,7 +2181,8 @@ function markPresetModified(gui, modified) {
 function augmentController(gui, li, controller) {
   controller.__li = li;
   controller.__gui = gui;
-  Common.extend(controller, {
+  Common.extend(controller,
+  {
     options: function options(_options) {
       if (arguments.length > 1) {
         var nextSibling = controller.__li.nextElementSibling;
