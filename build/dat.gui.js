@@ -1988,6 +1988,8 @@ Common.extend(GUI.prototype,
       if (this.__folders[name] !== undefined) {
         throw new Error('You already have a folder in this GUI by the' + ' name "' + name + '"');
       }
+    } else {
+      return;
     }
     var newGuiParams = { name: name, parent: this };
     newGuiParams.autoPlace = this.autoPlace;

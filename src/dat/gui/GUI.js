@@ -620,6 +620,8 @@ common.extend(
               '"'
           );
         }
+      } else {
+        return;
       }
 
       const newGuiParams = { name: name, parent: this };
@@ -644,6 +646,7 @@ common.extend(
       }
 
       const gui = new GUI(newGuiParams);
+
       this.__folders[name] = gui;
 
       const li = addRow(this, gui.domElement);
