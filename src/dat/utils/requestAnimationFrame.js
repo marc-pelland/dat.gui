@@ -15,9 +15,10 @@ function requestAnimationFrame(callback) {
   setTimeout(callback, 1000 / 60);
 }
 
-export default window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.oRequestAnimationFrame ||
-    window.msRequestAnimationFrame ||
-    requestAnimationFrame;
+export default (typeof window === "undefined" && null) ||
+  window.requestAnimationFrame ||
+  window.webkitRequestAnimationFrame ||
+  window.mozRequestAnimationFrame ||
+  window.oRequestAnimationFrame ||
+  window.msRequestAnimationFrame ||
+  requestAnimationFrame;
